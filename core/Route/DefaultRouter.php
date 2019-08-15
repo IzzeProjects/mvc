@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Core\Route;
 
+use Core\Controller\Controller;
+use DI\Container;
 use Nyholm\Psr7\Request;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class DefaultRouter implements Router
@@ -19,6 +22,7 @@ class DefaultRouter implements Router
      */
     private $request;
 
+
     public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
@@ -31,17 +35,14 @@ class DefaultRouter implements Router
         return $this;
     }
 
-    public function dispatchAction()
+    public function dispatchController(): Controller
     {
         $path = $this->request->getUri()->getPath();
-
         $destination = $this->routes[trim($path, '/')];
-
-        $controller = $destination['controller'];
+        $controller = (string)$destination['controller'];
         $controller = new $controller();
 
-        $action = (string)$destination['action'];
-        $controller->$action($this->request);
+        return $controller;
     }
 
     /**
