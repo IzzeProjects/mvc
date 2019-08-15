@@ -35,14 +35,19 @@ class DefaultRouter implements Router
         return $this;
     }
 
-    public function dispatchController(): Controller
+    public function requestedController(): string
     {
         $path = $this->request->getUri()->getPath();
         $destination = $this->routes[trim($path, '/')];
-        $controller = (string)$destination['controller'];
-        $controller = new $controller();
+        return (string)$destination['controller'];
+    }
 
-        return $controller;
+
+    public function requestedAction(): string
+    {
+        $path = $this->request->getUri()->getPath();
+        $destination = $this->routes[trim($path, '/')];
+        return (string)$destination['action'];
     }
 
     /**

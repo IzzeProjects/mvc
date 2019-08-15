@@ -9,9 +9,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface Router
 {
-
     public function __construct(ServerRequestInterface $request);
-
     public function add(string $uri, string $controller, string $action): self;
-    public function dispatchController(): Controller;
+    public function requestedController(): string ;
+    public function requestedAction(): string ;
 }

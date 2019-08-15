@@ -9,8 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class IndexController implements Controller
 {
 
-    public function index(ServerRequestInterface $request)
+    public function index()
     {
+
         echo '<pre>';
         echo 'index invoked';
         echo '</pre>';
