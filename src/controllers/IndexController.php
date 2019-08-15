@@ -9,6 +9,14 @@ use Psr\Http\Message\ServerRequestInterface;
 class IndexController implements Controller
 {
 
+    public function main()
+    {
+        echo '<pre>';
+        echo 'main invoked';
+        echo '</pre>';
+        exit;
+    }
+
     public function index()
     {
 

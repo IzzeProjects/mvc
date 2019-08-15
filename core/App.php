@@ -32,6 +32,11 @@ class App
     private $viewResolver;
 
     /**
+     * @var Psr17Factory
+     */
+    private $factory;
+
+    /**
      * Make request from global variables
      */
     public function makeServerRequest()
@@ -59,6 +64,22 @@ class App
     }
 
     /**
+     * Default dependencies to start app
+     * @param ContainerBuilder $builder
+     */
+    private function defaultDependencies(ContainerBuilder &$builder)
+    {
+        $builder->addDefinitions([Psr17Factory::class => $this->factory]);
+        $builder->addDefinitions([ServerRequestInterface::class => $this->serverRequest]);
+        $builder->addDefinitions([Router::class => function (ServerRequestInterface $request) {
+            $router = new DefaultRouter($request);
+            $routes = require_once __DIR__ . '/../src/routes/config.php';
+            $routes($router);
+            return $router;
+        }]);
+    }
+
+    /**
      * Dispatch action by URL
      */
     public function dispatchAction()
@@ -80,21 +101,6 @@ class App
             \DI\autowire($controller)
                 ->method($action, \DI\get(ServerRequestInterface::class))
         );
-    }
-
-    /**
-     * Default dependencies to start app
-     * @param ContainerBuilder $builder
-     */
-    private function defaultDependencies(ContainerBuilder &$builder)
-    {
-        $builder->addDefinitions([ServerRequestInterface::class => $this->serverRequest]);
-        $builder->addDefinitions([Router::class => function (ServerRequestInterface $request) {
-            $router = new DefaultRouter($request);
-            $routes = require_once __DIR__ . '/../src/routes/config.php';
-            $routes($router);
-            return $router;
-        }]);
     }
 
     /**
