@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Core\DI\Dependencies;
 
 use Core\DI\Dependency;
-use Core\View\Types\TwigView;
 use Core\View\ViewResolver;
+use Core\View\Types\TwigView;
 use Psr\Container\ContainerInterface;
 
 class View implements Dependency

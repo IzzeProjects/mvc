@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Core\View\Types;
 
+use Core\Http\Responses\Types\Interfaces\Simple;
 use Core\View\ViewResolver;
 
 class TwigView implements ViewResolver
 {
 
-    const VIEWS_PATH = __DIR__.'/../../../src/views/';
+    const VIEWS_PATH = __DIR__ . '/../../../src/views/';
 
     /**
      * @var \Twig_Environment
@@ -26,10 +27,16 @@ class TwigView implements ViewResolver
     private $name;
 
     /**
-     * TwigView constructor.
+     * @var Simple
      */
-    public function __construct()
+    private $simpleResponse;
+
+    /**
+     * @param Simple $simpleResponse
+     */
+    public function __construct(Simple $simpleResponse)
     {
+        $this->simpleResponse = $simpleResponse;
         $this->init();
     }
 
@@ -41,7 +48,20 @@ class TwigView implements ViewResolver
      */
     public function render(): string
     {
-        return $this->twig->render($this->name.'.twig', $this->data);
+        return $this->twig->render($this->name . '.twig', $this->data);
+    }
+
+    /**
+     * @return ViewResolver
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function send(): ViewResolver
+    {
+        $this->simpleResponse->setData($this->render());
+        $this->simpleResponse->write();
+        return $this;
     }
 
     protected function init()
@@ -81,4 +101,5 @@ class TwigView implements ViewResolver
     {
         $this->name = $name;
     }
+
 }

@@ -6,6 +6,10 @@ namespace Core\View;
 interface ViewResolver
 {
     public function render(): string;
+
+    public function send(): self;
+
     public function setData(array $data);
+
     public function setName(string $name);
 }

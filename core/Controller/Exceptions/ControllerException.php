@@ -15,4 +15,5 @@ abstract class ControllerException extends Exception
         http_response_code(500);
         parent::__construct($this->message, 500, null);
     }
+
 }

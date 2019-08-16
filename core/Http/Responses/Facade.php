@@ -5,7 +5,9 @@ namespace Core\Http\Responses;
 
 interface Facade
 {
-    public function json(array $data);
-    public function xml();
-    public function simple(string $data);
+    public function json(array $data): Response;
+
+    public function xml(string $data): Response;
+
+    public function simple(string $data): Response;
 }

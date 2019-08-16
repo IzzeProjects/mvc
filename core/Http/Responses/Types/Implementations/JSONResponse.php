@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace Core\Http\Responses\Types\Implementations;
 
 use Core\Http\Responses\Response;
-use Core\Http\Responses\Types\Interfaces\JSON;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Psr\Http\Message\StreamInterface;
+use Core\Http\Responses\Types\Interfaces\JSON;
 
 class JSONResponse implements JSON
 {
@@ -15,7 +14,6 @@ class JSONResponse implements JSON
      * @var Psr17Factory
      */
     private $factory;
-
 
     /**
      * @var array
@@ -30,6 +28,9 @@ class JSONResponse implements JSON
         $this->factory = $factory;
     }
 
+    /**
+     * @return Response
+     */
     public function write(): Response
     {
         $responseBody = $this->factory->createStream(json_encode($this->data, JSON_PRETTY_PRINT));

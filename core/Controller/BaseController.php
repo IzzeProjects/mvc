@@ -55,8 +55,6 @@ abstract class BaseController
     {
         $this->viewResolver->setName($name);
         $this->viewResolver->setData($data);
-        $this->simpleResponse->setData($this->viewResolver->render());
-        $this->simpleResponse->write();
         return $this->viewResolver;
     }
 

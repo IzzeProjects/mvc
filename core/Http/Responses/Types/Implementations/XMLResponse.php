@@ -5,10 +5,11 @@ namespace Core\Http\Responses\Types\Implementations;
 
 use Core\Http\Responses\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Core\Http\Responses\Types\Interfaces\Simple;
+use Core\Http\Responses\Types\Interfaces\XML;
 
-class SimpleResponse implements Simple
+class XMLResponse implements XML
 {
+
     /**
      * @var Psr17Factory
      */
@@ -30,14 +31,23 @@ class SimpleResponse implements Simple
     /**
      * @return Response
      */
-    public function write(): Response // TODO Set status and headers
+    public function write(): Response
     {
         $responseBody = $this->factory->createStream($this->data);
         $response = $this->factory
             ->createResponse(200)
-            ->withBody($responseBody);
+            ->withBody($responseBody)
+            ->withHeader('Content-type', 'text/xml');
         (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getData(): string
+    {
+        return $this->data;
     }
 
     /**

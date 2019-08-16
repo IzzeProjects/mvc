@@ -8,5 +8,6 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 interface Response
 {
     public function __construct(Psr17Factory $factory);
+
     public function write(): self;
 }

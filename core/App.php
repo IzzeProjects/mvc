@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace Core;
 
 use Core\Controller\Controller;
-use Core\DI\Dependencies\Responses;
-use Core\Route\DefaultRouter;
-use Core\Route\Router;
+use Core\Route\{DefaultRouter, Router};
 use Core\View\ViewResolver;
 use DI\ContainerBuilder;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -99,7 +97,7 @@ class App
         $this->container->set(
             Controller::class,
             \DI\autowire($controller)
-                ->method($action, \DI\get(ServerRequestInterface::class))
+                ->method($action, \DI\get(ServerRequestInterface::class)) // TODO wrong solution, need multiple parameters
         );
     }
 

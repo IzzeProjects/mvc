@@ -7,8 +7,8 @@ use Core\DI\Dependency;
 use Core\Http\Responses\Facade;
 use Psr\Container\ContainerInterface;
 use Core\Http\Responses\Types\ResponseFacade;
-use Core\Http\Responses\Types\Interfaces\{JSON, Simple};
-use Core\Http\Responses\Types\Implementations\{JSONResponse, SimpleResponse};
+use Core\Http\Responses\Types\Interfaces\{JSON, Simple, XML};
+use Core\Http\Responses\Types\Implementations\{JSONResponse, SimpleResponse, XMLResponse};
 
 class Responses implements Dependency
 {
@@ -23,6 +23,7 @@ class Responses implements Dependency
     {
         $container->set(JSON::class, \DI\autowire(JSONResponse::class));
         $container->set(Simple::class, \DI\autowire(SimpleResponse::class));
+        $container->set(XML::class, \DI\autowire(XMLResponse::class));
     }
 
 }
