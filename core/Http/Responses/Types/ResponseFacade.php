@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace Core\Http\Responses\Types;
 
 use Core\Http\Responses\Facade;
-
-
-use Core\Http\Responses\Types\Interfaces\JSON;
-use Core\Http\Responses\Types\Interfaces\Simple;
+use Core\Http\Responses\Types\Interfaces\{JSON, Simple};
+use Core\View\ViewResolver;
 
 class ResponseFacade implements Facade
 {
@@ -18,18 +16,25 @@ class ResponseFacade implements Facade
     private $jsonResponse;
 
     /**
-     * @var JSON
+     * @var Simple
      */
     private $simpleResponse;
 
     /**
+     * @var ViewResolver
+     */
+    private $viewResolver;
+
+    /**
      * @param JSON $jsonResponse
      * @param Simple $simpleResponse
+     * @param ViewResolver $viewResolver
      */
-    public function __construct(JSON $jsonResponse, Simple $simpleResponse)
+    public function __construct(JSON $jsonResponse, Simple $simpleResponse, ViewResolver $viewResolver)
     {
         $this->jsonResponse = $jsonResponse;
         $this->simpleResponse = $simpleResponse;
+        $this->viewResolver = $viewResolver;
     }
 
     public function json(array $data = [])
@@ -41,11 +46,6 @@ class ResponseFacade implements Facade
     public function xml()
     {
         // TODO: Implement xml() method.
-    }
-
-    public function view()
-    {
-        // TODO: Implement view() method.
     }
 
     public function simple(string $data)

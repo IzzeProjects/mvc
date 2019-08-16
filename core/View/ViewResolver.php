@@ -1,15 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: izzep
- * Date: 15.08.2019
- * Time: 18:59
- */
+declare(strict_types=1);
 
 namespace Core\View;
 
-
 interface ViewResolver
 {
-
+    public function render(): string;
+    public function setData(array $data);
+    public function setName(string $name);
 }

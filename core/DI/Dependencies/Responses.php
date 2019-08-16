@@ -5,12 +5,10 @@ namespace Core\DI\Dependencies;
 
 use Core\DI\Dependency;
 use Core\Http\Responses\Facade;
-use Core\Http\Responses\Types\Implementations\JSONResponse;
-use Core\Http\Responses\Types\Implementations\SimpleResponse;
-use Core\Http\Responses\Types\Interfaces\JSON;
-use Core\Http\Responses\Types\Interfaces\Simple;
-use Core\Http\Responses\Types\ResponseFacade;
 use Psr\Container\ContainerInterface;
+use Core\Http\Responses\Types\ResponseFacade;
+use Core\Http\Responses\Types\Interfaces\{JSON, Simple};
+use Core\Http\Responses\Types\Implementations\{JSONResponse, SimpleResponse};
 
 class Responses implements Dependency
 {

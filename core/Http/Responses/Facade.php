@@ -7,6 +7,5 @@ interface Facade
 {
     public function json(array $data);
     public function xml();
-    public function view();
     public function simple(string $data);
 }

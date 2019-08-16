@@ -19,7 +19,7 @@ class SimpleResponse implements Simple
      */
     private $data;
 
-    public function write(): Response
+    public function write(): Response // TODO Set status and headers
     {
         $responseBody = $this->factory->createStream($this->data);
         $response = $this->factory

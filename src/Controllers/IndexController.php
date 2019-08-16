@@ -5,6 +5,7 @@ namespace Src\Controllers;
 
 use Core\Controller\BaseController;
 use Core\Http\Responses\Response;
+use Core\View\ViewResolver;
 
 class IndexController extends BaseController // TODO refactor src folder
 {
@@ -27,6 +28,17 @@ class IndexController extends BaseController // TODO refactor src folder
     public function index(): Response
     {
         return $this->response()->simple('This is main route :)');
+    }
+
+    public function viewAction(): ViewResolver
+    {
+        return $this->view('index', [
+            'h1' => 'Some title here :)',
+            'items' => [
+                'Twig loop 1',
+                'Twig loop 2'
+            ]
+        ]);
     }
 
 }
