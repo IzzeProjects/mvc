@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace Core\Http\Responses\Types;
 
 use Core\Http\Responses\Facade;
+
+
 use Core\Http\Responses\Types\Interfaces\JSON;
+use Core\Http\Responses\Types\Interfaces\Simple;
 
 class ResponseFacade implements Facade
 {
@@ -15,11 +18,18 @@ class ResponseFacade implements Facade
     private $jsonResponse;
 
     /**
-     * @param JSON $jsonResponse
+     * @var JSON
      */
-    public function __construct(JSON $jsonResponse)
+    private $simpleResponse;
+
+    /**
+     * @param JSON $jsonResponse
+     * @param Simple $simpleResponse
+     */
+    public function __construct(JSON $jsonResponse, Simple $simpleResponse)
     {
         $this->jsonResponse = $jsonResponse;
+        $this->simpleResponse = $simpleResponse;
     }
 
     public function json(array $data = [])
@@ -36,5 +46,11 @@ class ResponseFacade implements Facade
     public function view()
     {
         // TODO: Implement view() method.
+    }
+
+    public function simple(string $data)
+    {
+        $this->simpleResponse->setData($data);
+        return $this->simpleResponse->write(); // TODO type hint
     }
 }

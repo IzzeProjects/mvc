@@ -11,7 +11,7 @@ abstract class BaseController
     /**
      * @var Facade
      */
-    protected $responseFacade;
+    private $responseFacade;
 
     /**
      * BaseController constructor.

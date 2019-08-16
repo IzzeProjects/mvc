@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Http\Responses\Types\Implementations;
 
+use Core\Http\Responses\Response;
 use Core\Http\Responses\Types\Interfaces\JSON;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\StreamInterface;
@@ -15,10 +16,6 @@ class JSONResponse implements JSON
      */
     private $factory;
 
-    /**
-     * @var StreamInterface
-     */
-    private $responseBody;
 
     /**
      * @var array
@@ -33,14 +30,15 @@ class JSONResponse implements JSON
         $this->factory = $factory;
     }
 
-    public function write(): bool
+    public function write(): Response
     {
-        $this->responseBody = $this->factory->createStream(json_encode($this->data, JSON_PRETTY_PRINT));
+        $responseBody = $this->factory->createStream(json_encode($this->data, JSON_PRETTY_PRINT));
         $response = $this->factory
             ->createResponse(200)
-            ->withBody($this->responseBody)
+            ->withBody($responseBody)
             ->withHeader('Content-type', 'application/json');
-        return (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+        (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+        return $this;
     }
 
     /**

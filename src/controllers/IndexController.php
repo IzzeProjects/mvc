@@ -4,23 +4,29 @@ declare(strict_types=1);
 namespace Src\Controllers;
 
 use Core\Controller\BaseController;
+use Core\Http\Responses\Response;
 
 class IndexController extends BaseController // TODO refactor src folder
 {
 
-    public function main()
+    public function simple(): Response
     {
-
-
-
-        echo '<pre>';
-        echo 'main invoked';
-        echo '</pre>';
-        exit;
+        return $this->response()->simple('simple text route check');
     }
 
-    public function index()
+    public function json(): Response
     {
-        return $this->response()->json(['json' => 'write some data here, for example']);
+        return $this->response()->json(
+            [
+                'json' => 'json route check',
+                'some' => 'json'
+            ]
+        );
     }
+
+    public function index(): Response
+    {
+        return $this->response()->simple('This is main route :)');
+    }
+
 }
