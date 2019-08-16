@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core;
 
 use Core\Controller\Controller;
+use Core\DI\Dependencies\Responses;
 use Core\Route\DefaultRouter;
 use Core\Route\Router;
 use Core\View\ViewResolver;
@@ -41,12 +42,12 @@ class App
      */
     public function makeServerRequest()
     {
-        $factory = new Psr17Factory();
+        $this->factory = new Psr17Factory();
         $creator = new ServerRequestCreator(
-            $factory,
-            $factory,
-            $factory,
-            $factory
+            $this->factory,
+            $this->factory,
+            $this->factory,
+            $this->factory
         );
         $request = $creator->fromGlobals();
         $this->serverRequest = $request;
@@ -60,7 +61,6 @@ class App
         $builder = new ContainerBuilder();
         $this->defaultDependencies($builder);
         $this->container = $builder->build();
-
     }
 
     /**
@@ -72,7 +72,7 @@ class App
         $builder->addDefinitions([Psr17Factory::class => $this->factory]);
         $builder->addDefinitions([ServerRequestInterface::class => $this->serverRequest]);
         $builder->addDefinitions([Router::class => function (ServerRequestInterface $request) {
-            $router = new DefaultRouter($request);
+            $router = new DefaultRouter($request); // TODO router implementation
             $routes = require_once __DIR__ . '/../src/routes/config.php';
             $routes($router);
             return $router;
@@ -101,6 +101,18 @@ class App
             \DI\autowire($controller)
                 ->method($action, \DI\get(ServerRequestInterface::class))
         );
+    }
+
+    /**
+     * Set dependencies
+     */
+    public function setDependencies()
+    {
+        $config = require_once __DIR__ . '/../core/Configs/dependencies.php';
+        foreach ($config['dependencies'] as $dependency) {
+            $dependencySetter = new $dependency();
+            $dependencySetter->set($this->container);
+        }
     }
 
     /**

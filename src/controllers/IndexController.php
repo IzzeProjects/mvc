@@ -1,16 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace Src\Controllers;
 
-use Core\Controller\Controller;
-use Psr\Http\Message\ServerRequestInterface;
+use Core\Controller\BaseController;
 
-
-class IndexController implements Controller
+class IndexController extends BaseController // TODO refactor src folder
 {
 
     public function main()
     {
+
+
+
         echo '<pre>';
         echo 'main invoked';
         echo '</pre>';
@@ -19,10 +21,6 @@ class IndexController implements Controller
 
     public function index()
     {
-
-        echo '<pre>';
-        echo 'index invoked';
-        echo '</pre>';
-        exit;
+        return $this->response()->json(['json' => 'write some data here, for example']);
     }
 }

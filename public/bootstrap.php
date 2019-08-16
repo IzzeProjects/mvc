@@ -7,6 +7,8 @@ $app->makeServerRequest();
 
 $app->makeDIContainer();
 
+$app->setDependencies();
+
 $app->getContainer()->set(\Core\App::class, $app); // Set application instance in DI
 
 $app->dispatchAction();
