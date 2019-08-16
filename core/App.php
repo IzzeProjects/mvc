@@ -106,8 +106,20 @@ class App
      */
     public function setDependencies()
     {
-        $config = require_once __DIR__ . '/../core/Configs/dependencies.php';
-        foreach ($config['dependencies'] as $dependency) {
+        $coreConfig = require_once __DIR__ . '/../core/Configs/dependencies.php';
+        $this->resolveDependencies($coreConfig['dependencies']);
+        $clientConfig = require_once __DIR__ . '/../src/configs/dependencies.php';
+        $this->resolveDependencies($clientConfig['dependencies']);
+    }
+
+    /**
+     * Resolve dependencies
+     * @param array $dependencies
+     */
+    private function resolveDependencies(array $dependencies)
+    {
+
+        foreach ($dependencies as $dependency) {
             $dependencySetter = new $dependency();
             $dependencySetter->set($this->container);
         }
