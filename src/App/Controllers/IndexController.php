@@ -59,7 +59,7 @@ class IndexController extends BaseController
     /**
      * @return ViewResolver
      */
-    public function viewAction(): ViewResolver // TODO cache twig
+    public function viewAction(): ViewResolver
     {
         return $this->view('index', [
             'h1' => 'Some title here :)',

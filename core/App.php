@@ -71,7 +71,7 @@ class App
         $builder->addDefinitions([Psr17Factory::class => $this->factory]);
         $builder->addDefinitions([ServerRequestInterface::class => $this->serverRequest]);
         $builder->addDefinitions([Router::class => function (ServerRequestInterface $request) {
-            $router = new DefaultRouter($request); // TODO router implementation
+            $router = new DefaultRouter($request);
             $routes = require_once __DIR__ . '/../src/routes/config.php';
             $routes($router);
             return $router;

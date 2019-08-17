@@ -83,7 +83,7 @@ class TwigView implements ViewResolver
     /**
      * @param array $data
      */
-    public function setData(array $data) // TODO hide impl
+    public function setData(array $data)
     {
         $this->data = $data;
     }
