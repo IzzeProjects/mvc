@@ -67,7 +67,9 @@ class TwigView implements ViewResolver
     protected function init()
     {
         $loader = new \Twig_Loader_Filesystem(self::VIEWS_PATH);
-        $this->twig = new \Twig_Environment($loader);
+        $this->twig = new \Twig_Environment($loader, [
+            'cache' => __DIR__.'/../../../storage/cache/twig',
+        ]);
     }
 
     /**
