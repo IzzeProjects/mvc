@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core;
 
 use Core\Controller\BaseController;
+use Core\Controller\Exceptions\ControllerNotExistException;
 use Core\Route\{DefaultRouter, Router};
 use Core\View\ViewResolver;
 use DI\ContainerBuilder;
@@ -80,6 +81,7 @@ class App
     /**
      * Dispatch action by URL
      * @throws \ReflectionException
+     * @throws ControllerNotExistException
      */
     public function dispatchAction()
     {
@@ -90,12 +92,14 @@ class App
     /**
      * Add action in DI container
      * @throws \ReflectionException
+     * @throws ControllerNotExistException
      */
     private function addInvokedAction()
     {
         $router = $this->container->get(Router::class);
-        $action = $router->requestedAction();
         $controller = $router->requestedController();
+        if(!class_exists($controller)) throw new ControllerNotExistException();
+        $action = $router->requestedAction();
         $ref = new \ReflectionMethod($controller, $action);
         $controllerAutowire = \DI\autowire($controller);
         $controllerAutowire->method($action);
