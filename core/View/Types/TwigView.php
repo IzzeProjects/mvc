@@ -59,8 +59,8 @@ class TwigView implements ViewResolver
      */
     public function send(): ViewResolver
     {
-        $this->simpleResponse->setData($this->render());
-        $this->simpleResponse->write();
+        $this->simpleResponse->setBody($this->render());
+        $this->simpleResponse->send();
         return $this;
     }
 

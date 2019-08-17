@@ -7,5 +7,5 @@ use Core\Http\Responses\Response;
 
 interface JSON extends Response
 {
-    public function setData(array $data);
+    public function setBody(array $data): Response;
 }

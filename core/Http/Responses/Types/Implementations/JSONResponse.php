@@ -4,58 +4,21 @@ declare(strict_types=1);
 namespace Core\Http\Responses\Types\Implementations;
 
 use Core\Http\Responses\Response;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Core\Http\Responses\Types\Interfaces\JSON;
+use Core\Http\Responses\Types\Implementations\Response as BaseResponse;
 
-class JSONResponse implements JSON
+class JSONResponse extends BaseResponse implements JSON
 {
 
     /**
-     * @var Psr17Factory
-     */
-    private $factory;
-
-    /**
-     * @var array
-     */
-    private $data;
-
-    /**
-     * @param Psr17Factory $factory
-     */
-    public function __construct(Psr17Factory $factory)
-    {
-        $this->factory = $factory;
-    }
-
-    /**
+     * @param array $data
      * @return Response
      */
-    public function write(): Response
+    public function setBody(array $data): Response
     {
-        $responseBody = $this->factory->createStream(json_encode($this->data, JSON_PRETTY_PRINT));
-        $response = $this->factory
-            ->createResponse(200)
-            ->withBody($responseBody)
-            ->withHeader('Content-type', 'application/json');
-        (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+        $responseBody = $this->factory->createStream(json_encode($data, JSON_PRETTY_PRINT));
+        $this->response = $this->response->withBody($responseBody);
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getData(): array
-    {
-        return $this->data;
-    }
-
-    /**
-     * @param array $data
-     */
-    public function setData(array $data)
-    {
-        $this->data = $data;
     }
 
 }

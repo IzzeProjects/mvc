@@ -5,7 +5,7 @@ namespace Core\DI;
 
 use Psr\Container\ContainerInterface;
 
-interface Dependency // TODO pattern || name replace
+interface Dependency
 {
     public function set(ContainerInterface $container);
 }

@@ -17,7 +17,10 @@ class IndexController extends BaseController
      */
     public function simple(): Response
     {
-        return $this->response()->simple('simple text route check');
+        return $this
+            ->response()
+            ->simple('simple text route check')
+            ->send();
     }
 
     /**
@@ -25,12 +28,10 @@ class IndexController extends BaseController
      */
     public function json(): Response
     {
-        return $this->response()->json(
-            [
-                'json' => 'json route check',
-                'some' => 'json'
-            ]
-        );
+        return $this
+            ->response()
+            ->json(['json' => 'json route check','some' => 'json'])
+            ->send();
     }
 
     /**
@@ -39,7 +40,10 @@ class IndexController extends BaseController
     public function xml(): Response
     {
         $content = $this->view('xml')->render();
-        return $this->response()->xml($content);
+        return $this
+            ->response()
+            ->xml($content)
+            ->send();
     }
 
     /**
@@ -47,7 +51,9 @@ class IndexController extends BaseController
      */
     public function index(): Response
     {
-        return $this->response()->simple('This is main route :)');
+        return $this->response()
+            ->simple('This is main route :)')
+            ->send();
     }
 
     /**
@@ -61,7 +67,7 @@ class IndexController extends BaseController
                 'Twig loop 1',
                 'Twig loop 2'
             ]
-        ])->send(); // TODO add headers
+        ])->send();
     }
 
     /**
@@ -71,9 +77,17 @@ class IndexController extends BaseController
      */
     public function model(UserService $userService): Response
     {
-        $user = new User(10, 'Username', password_hash('fdfgsd43534543dfg', PASSWORD_BCRYPT), new \DateTime('now'));
+        $user = new User(10,
+            'Username',
+            password_hash('fdfgsd43534543dfg',
+                PASSWORD_BCRYPT),
+            new \DateTime('now')
+        );
         $userService->setModel($user);
-        return $this->response()->simple($userService->formatDate());
+        return $this
+            ->response()
+            ->simple($userService->formatDate())
+            ->send();
     }
 
 }

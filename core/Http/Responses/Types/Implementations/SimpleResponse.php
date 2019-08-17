@@ -4,48 +4,21 @@ declare(strict_types=1);
 namespace Core\Http\Responses\Types\Implementations;
 
 use Core\Http\Responses\Response;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Core\Http\Responses\Types\Interfaces\Simple;
+use Core\Http\Responses\Types\Implementations\Response as BaseResponse;
 
-class SimpleResponse implements Simple
+class SimpleResponse extends BaseResponse implements Simple
 {
-    /**
-     * @var Psr17Factory
-     */
-    private $factory;
-
-    /**
-     * @var string
-     */
-    private $data;
-
-    /**
-     * @param Psr17Factory $factory
-     */
-    public function __construct(Psr17Factory $factory)
-    {
-        $this->factory = $factory;
-    }
-
-    /**
-     * @return Response
-     */
-    public function write(): Response // TODO Set status and headers
-    {
-        $responseBody = $this->factory->createStream($this->data);
-        $response = $this->factory
-            ->createResponse(200)
-            ->withBody($responseBody);
-        (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
-        return $this;
-    }
 
     /**
      * @param string $data
+     * @return Response
      */
-    public function setData(string $data)
+    public function setBody(string $data): Response
     {
-        $this->data = $data;
+        $responseBody = $this->factory->createStream($data);
+        $this->response = $this->response->withBody($responseBody);
+        return $this;
     }
 
 }

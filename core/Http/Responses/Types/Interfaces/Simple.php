@@ -7,5 +7,5 @@ use Core\Http\Responses\Response;
 
 interface Simple extends Response
 {
-    public function setData(string $data);
+    public function setBody(string $data): Response;
 }

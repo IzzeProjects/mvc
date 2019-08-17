@@ -56,8 +56,9 @@ class ResponseFacade implements Facade
      */
     public function json(array $data = []): Response
     {
-        $this->jsonResponse->setData($data);
-        return $this->jsonResponse->write();
+        $this->jsonResponse->setHeader('Content-Type', 'application/json');
+        $this->jsonResponse->setBody($data);
+        return $this->jsonResponse;
     }
 
     /**
@@ -66,8 +67,9 @@ class ResponseFacade implements Facade
      */
     public function xml(string $data): Response
     {
-        $this->xmlResponse->setData($data);
-        return $this->xmlResponse->write();
+        $this->xmlResponse->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+        $this->xmlResponse->setBody($data);
+        return $this->xmlResponse;
     }
 
     /**
@@ -76,8 +78,8 @@ class ResponseFacade implements Facade
      */
     public function simple(string $data): Response
     {
-        $this->simpleResponse->setData($data);
-        return $this->simpleResponse->write();
+        $this->simpleResponse->setBody($data);
+        return $this->simpleResponse;
     }
 
 }

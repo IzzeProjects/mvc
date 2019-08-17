@@ -6,6 +6,6 @@ namespace Core\Controller\Exceptions;
 class ControllerNotExistException extends ControllerException
 {
 
-    protected $message = 'Controller has been not found'; // TODO where throw ?
+    protected $message = 'Controller has been not found';
 
 }

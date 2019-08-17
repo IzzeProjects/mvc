@@ -9,5 +9,9 @@ interface Response
 {
     public function __construct(Psr17Factory $factory);
 
-    public function write(): self;
+    public function send(): self;
+
+    public function setHeader(string $name, string $value): self;
+
+    public function setStatus(int $status): self;
 }
