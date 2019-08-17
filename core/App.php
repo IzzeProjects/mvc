@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core;
 
-use Core\Controller\Controller;
+use Core\Controller\BaseController;
 use Core\Route\{DefaultRouter, Router};
 use Core\View\ViewResolver;
 use DI\ContainerBuilder;
@@ -79,26 +79,30 @@ class App
 
     /**
      * Dispatch action by URL
+     * @throws \ReflectionException
      */
     public function dispatchAction()
     {
         $this->addInvokedAction();
-        $this->container->get(Controller::class);
+        $this->container->get(BaseController::class);
     }
 
     /**
      * Add action in DI container
+     * @throws \ReflectionException
      */
     private function addInvokedAction()
     {
         $router = $this->container->get(Router::class);
         $action = $router->requestedAction();
         $controller = $router->requestedController();
-        $this->container->set(
-            Controller::class,
-            \DI\autowire($controller)
-                ->method($action, \DI\get(ServerRequestInterface::class)) // TODO wrong solution, need multiple parameters
-        );
+        $ref = new \ReflectionMethod($controller, $action);
+        $controllerAutowire = \DI\autowire($controller);
+        $controllerAutowire->method($action);
+        foreach ($ref->getParameters() as $param) {
+            $controllerAutowire->methodParameter($action, $param->getName(), \DI\get($param->getType()->getName()));
+        };
+        $this->container->set(BaseController::class, $controllerAutowire);
     }
 
     /**
