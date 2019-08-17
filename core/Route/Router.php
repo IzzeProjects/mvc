@@ -11,7 +11,6 @@ interface Router
 
     public function add(string $uri, string $controller, string $action): self;
 
-    public function requestedController(): string;
+    public function requestedRoute(): Route;
 
-    public function requestedAction(): string;
 }

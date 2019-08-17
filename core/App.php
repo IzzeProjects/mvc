@@ -97,10 +97,11 @@ class App
     private function addInvokedAction()
     {
         $router = $this->container->get(Router::class);
-        $controller = $router->requestedController();
+        $route = $router->requestedRoute();
+        $controller = $route->getController();
         if(!class_exists($controller)) throw new ControllerNotExistException();
-        $action = $router->requestedAction();
-        $ref = new \ReflectionMethod($controller, $action);
+        $action = $route->getAction();
+        $ref = new \ReflectionMethod($route->getController(), $action);
         $controllerAutowire = \DI\autowire($controller);
         $controllerAutowire->method($action);
         foreach ($ref->getParameters() as $param) {

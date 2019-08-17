@@ -10,15 +10,14 @@ class DefaultRouter implements Router
 {
 
     /**
-     * @var array
+     * @var Route[]
      */
-    private $routes; // TODO route separate item
+    private $routes;
 
     /**
      * @var Request
      */
     private $request;
-
 
     /**
      * @param ServerRequestInterface $request
@@ -36,29 +35,18 @@ class DefaultRouter implements Router
      */
     public function add(string $uri, string $controller, string $action): Router
     {
-        $this->routes[trim($uri, '/')] = compact('controller', 'action');
-
+        $uri = trim($uri, '/');
+        $this->routes[$uri] = new Route($uri, $controller, $action);
         return $this;
     }
 
     /**
-     * @return string
+     * @return Route
      */
-    public function requestedController(): string
+    public function requestedRoute(): Route
     {
         $path = $this->request->getUri()->getPath();
-        $destination = $this->routes[trim($path, '/')];
-        return (string)$destination['controller'];
-    }
-
-    /**
-     * @return string
-     */
-    public function requestedAction(): string
-    {
-        $path = $this->request->getUri()->getPath();
-        $destination = $this->routes[trim($path, '/')];
-        return (string)$destination['action'];
+        return $this->routes[trim($path, '/')];
     }
 
     /**
