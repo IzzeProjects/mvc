@@ -5,7 +5,7 @@ namespace Core\Services;
 
 use Core\Models\Model;
 
-interface Service
+interface ModelService
 {
     public function setModel(Model $model): self;
 }

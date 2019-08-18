@@ -6,8 +6,9 @@ namespace Src\App\Controllers;
 use Core\Controller\BaseController;
 use Core\Http\Responses\Response;
 use Core\View\ViewResolver;
+use Src\App\Models\Repository\User\UserRepository;
 use Src\App\Models\User;
-use Src\App\Services\UserService;
+use Src\App\Services\UserModelService;
 
 class IndexController extends BaseController
 {
@@ -47,10 +48,13 @@ class IndexController extends BaseController
     }
 
     /**
+     * @param UserRepository $repository
      * @return Response
      */
-    public function index(): Response
+    public function index(UserRepository $repository): Response
     {
+
+        $repository->get(123);
         return $this->response()
             ->simple('This is main route :)')
             ->send();
@@ -71,11 +75,11 @@ class IndexController extends BaseController
     }
 
     /**
-     * @param UserService $userService
+     * @param UserModelService $userService
      * @return Response
      * @throws \Exception
      */
-    public function model(UserService $userService): Response
+    public function model(UserModelService $userService): Response
     {
         $user = new User(10,
             'Username',

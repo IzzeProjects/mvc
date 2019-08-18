@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Src\App\Services;
 
 use Core\Models\Model;
-use Core\Services\Service;
+use Core\Services\ModelService;
 use Src\App\Models\User;
 
-class UserService implements Service
+class UserModelService implements ModelService
 {
 
     /**
@@ -15,7 +15,7 @@ class UserService implements Service
      */
     private $user;
 
-    public function setModel(Model $model): Service
+    public function setModel(Model $model): ModelService
     {
         $this->user = $model;
         return $this;

@@ -2,5 +2,7 @@
 declare(strict_types=1);
 
 return [
-    'dependencies' => []
+    'dependencies' => [
+        \Src\App\Dependencies\Repositories::class
+    ]
 ];
