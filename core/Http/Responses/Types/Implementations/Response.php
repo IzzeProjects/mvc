@@ -6,7 +6,7 @@ namespace Core\Http\Responses\Types\Implementations;
 use Core\Http\Responses\Response as ResponseInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
-class Response implements ResponseInterface
+abstract class Response implements ResponseInterface
 {
 
     /**
