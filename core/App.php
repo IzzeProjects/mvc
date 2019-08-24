@@ -27,11 +27,6 @@ class App
     private $container;
 
     /**
-     * @var ViewResolver
-     */
-    private $viewResolver;
-
-    /**
      * @var Psr17Factory
      */
     private $factory;
@@ -122,27 +117,6 @@ class App
     }
 
     /**
-     * Resolve dependencies
-     * @param array $dependencies
-     */
-    private function resolveDependencies(array $dependencies)
-    {
-
-        foreach ($dependencies as $dependency) {
-            $dependencySetter = new $dependency();
-            $dependencySetter->set($this->container);
-        }
-    }
-
-    /**
-     * @return ServerRequestInterface
-     */
-    public function getServerRequest(): ServerRequestInterface
-    {
-        return $this->serverRequest;
-    }
-
-    /**
      * @return ContainerInterface
      */
     public function getContainer(): ContainerInterface
@@ -151,11 +125,15 @@ class App
     }
 
     /**
-     * @return ViewResolver
+     * Resolve dependencies
+     * @param array $dependencies
      */
-    public function getViewResolver(): ViewResolver
+    private function resolveDependencies(array $dependencies)
     {
-        return $this->viewResolver;
+        foreach ($dependencies as $dependency) {
+            $dependencySetter = new $dependency();
+            $dependencySetter->set($this->container);
+        }
     }
 
 }
