@@ -5,7 +5,6 @@ namespace Src\App\Controllers;
 
 use Core\Controller\BaseController;
 use Core\Http\Responses\Interfaces\Response;
-use Core\View\ViewResolver;
 use Src\App\Models\Repository\User\UserRepository;
 use Src\App\Models\User;
 use Src\App\Services\UserModelService;

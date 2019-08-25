@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Route;
 
+use Core\Controller\Exceptions\ControllerActionNotExistException;
 use Nyholm\Psr7\Request;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -42,10 +43,14 @@ class DefaultRouter implements Router
 
     /**
      * @return Route
+     * @throws ControllerActionNotExistException
      */
     public function requestedRoute(): Route
     {
         $path = $this->request->getUri()->getPath();
+        $this->routes[trim($path, '/')];
+        $route = $this->routes[trim($path, '/')];
+        if(is_null($route)) throw new ControllerActionNotExistException();
         return $this->routes[trim($path, '/')];
     }
 
