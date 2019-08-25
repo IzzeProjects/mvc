@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Http\Responses;
+namespace Core\Http\Response;
 
-use Core\Http\Responses\Interfaces\{Response, Facade};
+use Core\Http\Response\Interfaces\{Response, Facade};
 use Core\View\ViewResolver;
 
 class ResponseFacade implements Facade

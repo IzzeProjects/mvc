@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Core\DI\Dependencies;
 
 use Core\DI\Dependency;
-use Core\Http\Responses\Interfaces\{Facade, Response};
-use Core\Http\Responses\ResponseFacade;
+use Core\Http\Response\Interfaces\{Facade, Response};
+use Core\Http\Response\ResponseFacade;
 use Psr\Container\ContainerInterface;
-use Core\Http\Responses\Response as HttpResponse;
+use Core\Http\Response\Response as HttpResponse;
 
 class Responses implements Dependency
 {

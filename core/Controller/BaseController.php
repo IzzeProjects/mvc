@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Core\Controller;
 
-use Core\Http\Responses\Interfaces\Facade as ResponseFacade;
-use Core\Http\Responses\Interfaces\Response;
+use Core\Http\Response\Interfaces\Facade as ResponseFacade;
+use Core\Http\Response\Interfaces\Response;
 use Core\View\ViewResolver;
 
 abstract class BaseController

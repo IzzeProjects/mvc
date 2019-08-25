@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Src\App\Controllers;
 
 use Core\Controller\BaseController;
-use Core\Http\Responses\Interfaces\Response;
+use Core\Http\Response\Interfaces\Response;
 use Src\App\Models\Repository\User\UserRepository;
 use Src\App\Models\User;
 use Src\App\Services\UserModelService;
