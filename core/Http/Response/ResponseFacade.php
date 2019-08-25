@@ -6,7 +6,7 @@ namespace Core\Http\Response;
 use Core\Http\Response\Interfaces\{Response, Facade};
 use Core\View\ViewResolver;
 
-class ResponseFacade implements Facade
+class ResponseFacade implements Facade // TODO redirect
 {
 
     /**

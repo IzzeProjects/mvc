@@ -40,8 +40,6 @@ class IndexController extends BaseController
     public function xml(ViewResolver $view): Response
     {
         $content = $view->setName('xml')->render();
-        var_dump($content);
-        $content = $this->view('xml')->render();
         return $this
             ->response()
             ->xml($content);
@@ -54,15 +52,10 @@ class IndexController extends BaseController
     public function index(UserRepository $repository): Response
     {
 
-        $repository->get(123);
+        $data = $repository->get(123);
         return $this->response()
-            ->simple('This is main route :)')
+            ->simple('This is main route :)' . ' UserRepository data get = ' . $data)
             ->setStatus(405);
-    }
-
-    public function test(UserRepository $repository)
-    {
-        return 123;
     }
 
     /**
