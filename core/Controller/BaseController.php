@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace Core\Controller;
 
-use Core\Http\Responses\Facade;
-use Core\Http\Responses\Types\Interfaces\Simple;
+use Core\Http\Responses\Interfaces\Facade as ResponseFacade;
 use Core\View\ViewResolver;
 
 abstract class BaseController
 {
 
     /**
-     * @var Facade
+     * @var ResponseFacade
      */
     private $responseFacade;
 
@@ -21,25 +20,17 @@ abstract class BaseController
     private $viewResolver;
 
     /**
-     * @var Simple
-     */
-    private $simpleResponse;
-
-    /**
-     * BaseController constructor.
-     * @param Facade $responseFacade
+     * @param ResponseFacade $responseFacade
      * @param ViewResolver $viewResolver
-     * @param Simple $simpleResponse
      */
-    public function __construct(Facade $responseFacade, ViewResolver $viewResolver, Simple $simpleResponse)
+    public function __construct(ResponseFacade $responseFacade, ViewResolver $viewResolver)
     {
         $this->responseFacade = $responseFacade;
         $this->viewResolver = $viewResolver;
-        $this->simpleResponse = $simpleResponse;
     }
 
     /**
-     * @return Facade
+     * @return ResponseFacade
      */
     protected function response()
     {

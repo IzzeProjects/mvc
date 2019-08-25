@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\View\Types;
 
-use Core\Http\Responses\Types\Interfaces\Simple;
+use Core\Http\Responses\Interfaces\Response;
 use Core\View\ViewResolver;
 
 class TwigView implements ViewResolver
@@ -27,16 +27,16 @@ class TwigView implements ViewResolver
     private $name;
 
     /**
-     * @var Simple
+     * @var Response
      */
-    private $simpleResponse;
+    private $response;
 
     /**
-     * @param Simple $simpleResponse
+     * @param Response $response
      */
-    public function __construct(Simple $simpleResponse)
+    public function __construct(Response $response)
     {
-        $this->simpleResponse = $simpleResponse;
+        $this->response = $response;
         $this->init();
     }
 
@@ -52,16 +52,15 @@ class TwigView implements ViewResolver
     }
 
     /**
-     * @return ViewResolver
+     * @return Response
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function send(): ViewResolver
+    public function send(): Response
     {
-        $this->simpleResponse->setBody($this->render());
-        $this->simpleResponse->send();
-        return $this;
+        $this->response->setBody($this->render());
+        return $this->response;
     }
 
     protected function init()

@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Core;
 
 use Core\Controller\BaseController;
+use Core\Controller\Exceptions\ControllerActionReturnTypeException;
 use Core\Controller\Exceptions\ControllerNotExistException;
+use Core\Http\Responses\Interfaces\Response;
 use Core\Route\{DefaultRouter, Router};
-use Core\View\ViewResolver;
 use DI\ContainerBuilder;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
@@ -54,7 +55,7 @@ class App
     {
         $builder = new ContainerBuilder();
         $this->defaultDependencies($builder);
-        $this->container = $builder->build();
+        $this->container = $builder->build(); // TODO compile cache
     }
 
     /**
@@ -74,35 +75,57 @@ class App
     }
 
     /**
-     * Dispatch action by URL
+     * Dispatch action by route
      * @throws \ReflectionException
      * @throws ControllerNotExistException
+     * @throws ControllerActionReturnTypeException
      */
     public function dispatchAction()
     {
-        $this->addInvokedAction();
-        $this->container->get(BaseController::class);
+        $this->setInvokedControllerToContainer();
+        $router = $this->container->get(Router::class);
+        $route = $router->requestedRoute();
+        $action = $route->getAction();
+        $controller = $this->container->get(BaseController::class);
+        $ref = new \ReflectionMethod($controller, $action);
+
+        $params = [];
+
+        foreach ($ref->getParameters() as $param) {
+            $params[] = $this->container->get($param->getType()->getName());
+        };
+
+        $response = call_user_func_array([$controller, $action], $params);
+        if(!($response instanceof Response)) throw  new ControllerActionReturnTypeException();
+
+
+        $this->createAndSendBasicResponse($response);
+    }
+
+    private function createAndSendBasicResponse(Response $response){
+        $basicResponse = $this->factory->createResponse();
+        $responseBody = $this->factory->createStream($response->getBody());
+        $basicResponse = $basicResponse->withBody($responseBody);
+
+        foreach ($response->getHeaders() ?? [] as $name => $value) {
+            $basicResponse = $basicResponse->withHeader($name, $value);
+        }
+
+        $basicResponse = $basicResponse->withStatus($response->getStatus() ?? 200);
+        (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter())->emit($basicResponse);
     }
 
     /**
-     * Add action in DI container
-     * @throws \ReflectionException
+     * Set controller in DI container
      * @throws ControllerNotExistException
      */
-    private function addInvokedAction()
+    private function setInvokedControllerToContainer()
     {
         $router = $this->container->get(Router::class);
         $route = $router->requestedRoute();
         $controller = $route->getController();
         if(!class_exists($controller)) throw new ControllerNotExistException();
-        $action = $route->getAction();
-        $ref = new \ReflectionMethod($route->getController(), $action);
-        $controllerAutowire = \DI\autowire($controller);
-        $controllerAutowire->method($action);
-        foreach ($ref->getParameters() as $param) {
-            $controllerAutowire->methodParameter($action, $param->getName(), \DI\get($param->getType()->getName()));
-        };
-        $this->container->set(BaseController::class, $controllerAutowire);
+        $this->container->set(BaseController::class, \DI\autowire($controller));
     }
 
     /**

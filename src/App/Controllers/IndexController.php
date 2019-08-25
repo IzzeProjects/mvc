@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Src\App\Controllers;
 
 use Core\Controller\BaseController;
-use Core\Http\Responses\Response;
+use Core\Http\Responses\Interfaces\Response;
 use Core\View\ViewResolver;
 use Src\App\Models\Repository\User\UserRepository;
 use Src\App\Models\User;
@@ -20,8 +20,7 @@ class IndexController extends BaseController
     {
         return $this
             ->response()
-            ->simple('simple text route check')
-            ->send();
+            ->simple('simple text route check');
     }
 
     /**
@@ -31,8 +30,7 @@ class IndexController extends BaseController
     {
         return $this
             ->response()
-            ->json(['json' => 'json route check','some' => 'json'])
-            ->send();
+            ->json(['json' => 'json route check','some' => 'json']);
     }
 
     /**
@@ -43,8 +41,7 @@ class IndexController extends BaseController
         $content = $this->view('xml')->render();
         return $this
             ->response()
-            ->xml($content)
-            ->send();
+            ->xml($content);
     }
 
     /**
@@ -57,13 +54,18 @@ class IndexController extends BaseController
         $repository->get(123);
         return $this->response()
             ->simple('This is main route :)')
-            ->send();
+            ->setStatus(405);
+    }
+
+    public function test(UserRepository $repository)
+    {
+        return 123;
     }
 
     /**
      * @return ViewResolver
      */
-    public function viewAction(): ViewResolver
+    public function viewAction(): Response
     {
         return $this->view('index', [
             'h1' => 'Some title here :)',
@@ -90,8 +92,7 @@ class IndexController extends BaseController
         $userService->setModel($user);
         return $this
             ->response()
-            ->simple($userService->formatDate())
-            ->send();
+            ->simple($userService->formatDate());
     }
 
 }

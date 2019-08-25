@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace Core\View;
 
+use Core\Http\Responses\Interfaces\Response;
+
 interface ViewResolver
 {
     public function render(): string;
 
-    public function send(): self;
+    public function send(): Response;
 
     public function setData(array $data);
 

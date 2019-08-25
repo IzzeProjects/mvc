@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Http\Responses;
+namespace Core\Http\Responses\Interfaces;
 
 interface Facade
 {
