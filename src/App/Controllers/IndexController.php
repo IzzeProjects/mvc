@@ -5,6 +5,7 @@ namespace Src\App\Controllers;
 
 use Core\Controller\BaseController;
 use Core\Http\Response\Interfaces\Response;
+use Core\View\ViewResolver;
 use Src\App\Models\Repository\User\UserRepository;
 use Src\App\Models\User;
 use Src\App\Services\UserModelService;
@@ -33,10 +34,13 @@ class IndexController extends BaseController
     }
 
     /**
+     * @param ViewResolver $view
      * @return Response
      */
-    public function xml(): Response
+    public function xml(ViewResolver $view): Response
     {
+        $content = $view->setName('xml')->render();
+        var_dump($content);
         $content = $this->view('xml')->render();
         return $this
             ->response()

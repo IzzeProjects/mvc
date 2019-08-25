@@ -48,7 +48,7 @@ class TwigView implements ViewResolver
      */
     public function render(): string
     {
-        return $this->twig->render($this->name . '.twig', $this->data);
+        return $this->twig->render($this->name . '.twig', $this->data ?? []);
     }
 
     protected function init()

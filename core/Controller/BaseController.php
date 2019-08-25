@@ -33,7 +33,7 @@ abstract class BaseController
     /**
      * @return ResponseFacade
      */
-    protected function response()
+    protected function response(): ResponseFacade
     {
         return $this->responseFacade;
     }
@@ -44,7 +44,7 @@ abstract class BaseController
      * @param Response|null $customResponse
      * @return Response
      */
-    protected function view(string $name, array $data = [], Response $customResponse = null)
+    protected function view(string $name, array $data = [], Response $customResponse = null): Response
     {
         $this->viewResolver->setName($name);
         $this->viewResolver->setData($data);
