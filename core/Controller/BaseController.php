@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Controller;
 
 use Core\Http\Responses\Interfaces\Facade as ResponseFacade;
+use Core\Http\Responses\Interfaces\Response;
 use Core\View\ViewResolver;
 
 abstract class BaseController
@@ -40,13 +41,15 @@ abstract class BaseController
     /**
      * @param string $name
      * @param array $data
-     * @return ViewResolver
+     * @param Response|null $customResponse
+     * @return Response
      */
-    protected function view(string $name, array $data = [])
+    protected function view(string $name, array $data = [], Response $customResponse = null)
     {
         $this->viewResolver->setName($name);
         $this->viewResolver->setData($data);
-        return $this->viewResolver;
+        if(isset($customResponse)) $this->viewResolver->setCustomResponse($customResponse);
+        return $this->responseFacade->simple($this->viewResolver->render());
     }
 
 }

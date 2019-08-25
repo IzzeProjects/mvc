@@ -63,17 +63,22 @@ class IndexController extends BaseController
     }
 
     /**
-     * @return ViewResolver
+     * @param Response $response
+     * @return Response
      */
-    public function viewAction(): Response
+    public function viewAction(Response $response): Response
     {
+        $response->setStatus(401);
+        $response->addHeader('check', 'RRR');
+        $response->addHeader('check', 'RRR');
+
         return $this->view('index', [
             'h1' => 'Some title here :)',
             'items' => [
                 'Twig loop 1',
                 'Twig loop 2'
             ]
-        ])->send();
+        ], $response);
     }
 
     /**

@@ -51,18 +51,6 @@ class TwigView implements ViewResolver
         return $this->twig->render($this->name . '.twig', $this->data);
     }
 
-    /**
-     * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function send(): Response
-    {
-        $this->response->setBody($this->render());
-        return $this->response;
-    }
-
     protected function init()
     {
         $loader = new \Twig_Loader_Filesystem(self::VIEWS_PATH);
@@ -81,10 +69,12 @@ class TwigView implements ViewResolver
 
     /**
      * @param array $data
+     * @return ViewResolver
      */
-    public function setData(array $data)
+    public function setData(array $data): ViewResolver
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
@@ -97,10 +87,22 @@ class TwigView implements ViewResolver
 
     /**
      * @param string $name
+     * @return ViewResolver
      */
-    public function setName(string $name)
+    public function setName(string $name): ViewResolver
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param Response $response
+     * @return ViewResolver
+     */
+    public function setCustomResponse(Response $response): ViewResolver
+    {
+        $this->response = $response;
+        return $this;
     }
 
 }

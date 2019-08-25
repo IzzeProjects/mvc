@@ -9,9 +9,9 @@ interface ViewResolver
 {
     public function render(): string;
 
-    public function send(): Response;
+    public function setData(array $data): self;
 
-    public function setData(array $data);
+    public function setName(string $name): self;
 
-    public function setName(string $name);
+    public function setCustomResponse(Response $response): self;
 }
